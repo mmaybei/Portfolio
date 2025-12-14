@@ -1,10 +1,152 @@
 * {
-  background-color: #86FFA8;
+  box-sizing: border-box;
 }
 
-h2 {
-  text-align: center;
-  font-family: "neue-haas-grotesk-text", sans-serif;
-  font-weight: 400;
-  font-style: italic;
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-bookk);
+  font-weight: var(--fw-bookk);
+  color: #111;
+}
+
+.page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-split {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.bg-left {
+  background: var(--color-back-gray);
+}
+
+.bg-right {
+  background: var(--color-main-orange);
+}
+
+/* 콘텐츠 레이아웃 */
+.content {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  word-break: keep-all;
+}
+
+.left {
+  padding: 44px 12px 44px 40px;
+}
+
+.right {
+  padding: 44px 40px 44px 12px;
+}
+
+/* 상단 헤더 */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  letter-spacing: 0.3px;
+  margin-bottom: 56px;
+}
+
+.link-all {
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* 왼쪽 소개 */
+.intro {
+  max-width: 540px;
+  margin-top: 72px;
+}
+
+.accent {
+  color: var(--color-main-orange);
+}
+
+.contact {
+  margin-top: 28px;
+}
+
+.career {
+  border: 0;
+  margin-top: 120px;
+}
+
+.career-title {
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.career-title::-webkit-details-marker {
+  display: none;
+}
+
+.career-title {
+  list-style: none;
+}
+
+.chev {
+  color: var(--color-main-orange);
+  margin-right: 8px;
+}
+
+.career-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.career-list li {
+  margin: 2px 0;
+}
+
+/* 오른쪽: 작업 영역 */
+.right-grid {
+  margin-top: 150px;
+}
+
+/* 반응형 */
+@media (max-width: 840px) {
+
+  .left,
+  .right {
+    padding: 24px;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  /* 모바일에서는 배경을 단일로 두고, 오른쪽 섹션에 오렌지 배경을 직접 주는 방식 */
+  .bg-split {
+    grid-template-columns: 1fr;
+  }
+
+  .bg-right {
+    background: var(--color-back-gray);
+  }
+
+  .right {
+    background: var(--color-main-orange);
+  }
 }

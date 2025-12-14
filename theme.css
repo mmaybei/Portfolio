@@ -1,0 +1,55 @@
+@font-face {
+  font-family: 'BookkGothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkGothic-Bd.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --color-main-orange: #FF4834;
+  --color-main-pink: #FF4DBB;
+  --color-back-gray: #F3F3F3;
+
+  --font-bookk: 'BookkGothic', system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+
+  --lh-160: 1.6;
+
+  --fs-bookk-20: 1.25rem;
+  --fs-bookk-16: 1rem;
+  --fs-bookk-14: .875rem;
+
+  --fw-bookk: 700;
+}
+
+.bookk20 {
+  font-family: var(--font-bookk);
+  font-weight: var(--fw-bookk);
+  font-size: var(--fs-bookk-20);
+  line-height: var(--lh-160);
+}
+
+.bookk16 {
+  font-family: var(--font-bookk);
+  font-weight: var(--fw-bookk);
+  font-size: var(--fs-bookk-16);
+  line-height: var(--lh-160);
+}
+
+.bookk14 {
+  font-family: var(--font-bookk);
+  font-weight: var(--fw-bookk);
+  font-size: var(--fs-bookk-14);
+  line-height: var(--lh-160);
+}
+
+.text-main-orange {
+  color: var(--color-main-orange);
+}
+
+.text-main-pink {
+  color: var(--color-main-pink);
+}
+
+.bg-back-gray {
+  background-color: var(--color-back-gray);
+}
