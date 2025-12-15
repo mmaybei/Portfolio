@@ -5,6 +5,12 @@
 html,
 body {
   height: 100%;
+  overflow: hidden;
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -17,7 +23,6 @@ body {
 .page {
   min-height: 100vh;
   position: relative;
-  overflow: hidden;
 }
 
 .bg-split {
@@ -36,11 +41,11 @@ body {
   background: var(--color-main-orange);
 }
 
-/* 콘텐츠 레이아웃 */
 .content {
   position: relative;
   z-index: 1;
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   word-break: keep-all;
@@ -52,9 +57,17 @@ body {
 
 .right {
   padding: 44px 40px 44px 12px;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
 
-/* 상단 헤더 */
+.right::-webkit-scrollbar {
+  display: none;
+}
+
 .topbar {
   display: flex;
   align-items: center;
@@ -70,7 +83,6 @@ body {
   text-underline-offset: 4px;
 }
 
-/* 왼쪽 소개 */
 .intro {
   max-width: 540px;
   margin-top: 72px;
@@ -88,49 +100,46 @@ body {
   margin-top: 380px;
 }
 
-.career {
-  border: 0;
-  margin-top: 120px;
+.right-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-.career-title {
-  cursor: pointer;
-  user-select: none;
-  display: inline-flex;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
-.career-title::-webkit-details-marker {
-  display: none;
-}
-
-.career-title {
-  list-style: none;
-}
-
-.chev {
-  color: var(--color-main-orange);
-  margin-right: 8px;
-}
-
-.career-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.career-list li {
-  margin: 2px 0;
-}
-
-/* 오른쪽: 작업 영역 */
 .right-grid {
-  margin-top: 150px;
+  overflow: visible;
+  min-height: auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  grid-auto-rows: 12px;
 }
 
-/* 반응형 */
+.right-grid .masonry-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  grid-column: span var(--colspan, 1);
+}
+
+.right-grid .masonry-item[data-size="s"],
+.right-grid .masonry-item[data-size="m"] {
+  align-items: flex-end;
+}
+
+.right-grid .masonry-item img {
+  display: block;
+  width: calc(var(--scale, 1) * 100%);
+  height: auto;
+}
+
 @media (max-width: 840px) {
+
+  html,
+  body {
+    overflow: auto;
+    height: auto;
+  }
 
   .left,
   .right {
@@ -139,9 +148,23 @@ body {
 
   .content {
     grid-template-columns: 1fr;
+    height: auto;
+    min-height: auto;
   }
 
-  /* 모바일에서는 배경을 단일로 두고, 오른쪽 섹션에 오렌지 배경을 직접 주는 방식 */
+  .right {
+    height: auto;
+    overflow: visible;
+  }
+
+  .right-topbar {
+    position: static;
+  }
+
+  .copyright {
+    margin-top: 120px;
+  }
+
   .bg-split {
     grid-template-columns: 1fr;
   }

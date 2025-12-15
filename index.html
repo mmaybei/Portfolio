@@ -42,25 +42,6 @@
           © 2025 SUYEON KIM. </br>
           이 웹사이트는 현재 공사 중입니다.
         </div>
-
-        <!-- <details class="career">
-          <summary class="career-title bookk14">
-            <span class="chev">&gt;&gt;&gt;</span> 연혁
-          </summary>
-
-          <ul class="career-list bookk14">
-            <li>2021 이화여자대학교 디자인학부 입학</li>
-            <li>2021 이화여자대학교 중앙동아리 영화패 누에 디자인부</li>
-            <li>2022 이화여자대학교 중앙동아리 영화패 누에 디자인부장</li>
-            <li>2022 영화 ≪36컷의 여름≫ 미술감독</li>
-            <li>2023 영화 ≪카르마≫ 연출</li>
-            <li>2024 IT 연합 창업 동아리 SOPT iOS 파트</li>
-            <li>2024 모임 내 지각 관리 서비스, 꾸물꿈 iOS 개발자</li>
-            <li>2025 셰어하우스 중개 플랫폼, Roomie iOS 리드 개발자</li>
-            <li>2025 IT 연합 창업 동아리 SOPT 미디어팀장</li>
-            <li>2025 이화여자대학교 졸업전시 BOLD SPLIT 졸업준비위원회 웹팀장</li>
-          </ul>
-        </details> -->
       </section>
 
       <section class="right">
@@ -73,6 +54,107 @@
       </section>
     </div>
   </main>
+
+  <script>
+    const images = [
+      { src: "assets/BetweenSteps_thumb.png", alt: "work 01", size: "xl" },
+      { src: "assets/WhereObjectsFind_thumb.png", alt: "work 02", size: "m" },
+      { src: "assets/YouthFantasy_thumb.png", alt: "work 03", size: "l" },
+      { src: "assets/TypoJanchi_thumb.png", alt: "work 02", size: "l" },
+      { src: "assets/MeAndOthers_thumb.png", alt: "work 02", size: "l" },
+      { src: "assets/EwhaStudentCard_thumb.png", alt: "work 02", size: "m" },
+      { src: "assets/Karma_thumb.png", alt: "work 02", size: "xl" },
+      { src: "assets/EwhaInvitation_thumb.png", alt: "work 02", size: "l" },
+      // ...
+    ];
+
+    const grid = document.querySelector(".right-grid");
+
+    const SCALE_MAP = {
+      s: 0.60,
+      m: 0.80,
+      l: 1.00,
+      xl: 1.00,
+    };
+
+    const COLSPAN_MAP = {
+      s: 1,
+      m: 1,
+      l: 1,
+      xl: 2,
+    };
+
+    function getScale(size) {
+      return SCALE_MAP[size] ?? 1;
+    }
+
+    function render() {
+      grid.innerHTML = images
+        .map((it) => {
+          const href = it.href ?? it.src;
+          const target = it.href ? ' target="_blank" rel="noreferrer noopener"' : "";
+          const size = it.size ?? "m";
+
+          const scale = getScale(size);
+          const colspan = COLSPAN_MAP[size] ?? 1;
+
+          return `
+        <div class="masonry-item"
+          href="${href}"${target}
+          data-size="${size}"
+          style="--scale:${scale}; --colspan:${colspan};">
+          <img src="${it.src}" alt="${it.alt ?? ""}" loading="lazy" decoding="async" />
+        </div>
+      `;
+        })
+        .join("");
+    }
+
+
+    function masonryLayout() {
+      const style = getComputedStyle(grid);
+      const rowHeight = parseInt(style.getPropertyValue("grid-auto-rows"), 10);
+      const rowGap = parseInt(style.getPropertyValue("row-gap"), 10);
+
+      grid.querySelectorAll(".masonry-item").forEach((item) => {
+        const img = item.querySelector("img");
+        if (!img.complete || !img.naturalWidth) return;
+
+        const itemStyle = getComputedStyle(item);
+        const scale = parseFloat(itemStyle.getPropertyValue("--scale")) || 1;
+
+        // 그리드 셀(아이템)의 실제 폭
+        const cellW = item.getBoundingClientRect().width;
+
+        // 이미지 원본 비율
+        const ratio = img.naturalWidth / img.naturalHeight;
+
+        // "스케일 적용 전" 기준 높이(=scale 1일 때 들어갈 높이)
+        const baseH = cellW / ratio;
+
+        // row span 계산 (작은 이미지는 item 박스가 더 커져서 위쪽 여백이 생기고, 이미지는 아래로 붙음)
+        const span = Math.ceil((baseH + rowGap) / (rowHeight + rowGap) - 0.01);
+
+        item.style.gridRowEnd = `span ${span}`;
+      });
+    }
+
+    function bindImageLoad() {
+      const imgs = grid.querySelectorAll("img");
+      imgs.forEach((img) => img.addEventListener("load", masonryLayout, { once: true }));
+    }
+
+    let raf = 0;
+    window.addEventListener("resize", () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(masonryLayout);
+    });
+
+    render();
+    bindImageLoad();
+    masonryLayout();
+  </script>
+
 </body>
 
 </html>
