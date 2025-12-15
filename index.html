@@ -19,20 +19,20 @@
 
     <div class="content">
       <section class="left">
-        <header class="topbar left-topbar">
+        <header class="topbar left-topbar bookk18">
           <div class="brand-left">SUYEON</div>
           <div class="brand-right">KIM</div>
         </header>
 
         <div class="intro">
-          <p class="bookk16">
+          <p class="bookk14">
             김수연은 서울을 기반으로 활동하는 <span class="accent">그래픽</span> 디자이너다.<br />
             ① <span class="accent">편집 디자인</span>과 ② <span class="accent">촬영 위주의 영상 작업</span>에 관심이 많고, 디자인 외에도 개발에 관심이 많아
             ③ <span class="accent">클라이언트 개발</span>을 공부하고 있다.<br />
             정보를 구조화하거나 시각화하는 일을 좋아하며, 관심 분야가 넓어 늘 내가 좋아하는 것들의 공통점을 찾으려 노력한다.
           </p>
 
-          <div class="contact bookk16">
+          <div class="contact bookk14">
             <div>IG @uyeonworks</div>
             <div>uyeonworks@gmail.com</div>
           </div>
@@ -45,9 +45,20 @@
       </section>
 
       <section class="right">
-        <header class="topbar right-topbar">
+        <header class="topbar right-topbar bookk18">
           <div class="brand-left">SUYEON</div>
-          <a class="brand-right link-all" href="#all">ALL</a>
+          <div class="filter" id="filter">
+            <button type="button" class="filter-btn bookk18" id="filterBtn" aria-haspopup="menu" aria-expanded="false">
+              ALL
+            </button>
+            <div class="filter-menu" id="filterMenu" role="menu" aria-label="Work filter">
+              <button type="button" class="filter-item" data-tag="all" role="menuitem">ALL</button>
+              <button type="button" class="filter-item" data-tag="graphic" role="menuitem">GRAPHIC</button>
+              <button type="button" class="filter-item" data-tag="editorial" role="menuitem">EDITORIAL</button>
+              <button type="button" class="filter-item" data-tag="video" role="menuitem">VIDEO</button>
+              <button type="button" class="filter-item" data-tag="web" role="menuitem">WEB</button>
+            </div>
+          </div>
         </header>
 
         <div class="right-grid"></div>
@@ -55,106 +66,7 @@
     </div>
   </main>
 
-  <script>
-    const images = [
-      { src: "assets/BetweenSteps_thumb.png", alt: "work 01", size: "xl" },
-      { src: "assets/WhereObjectsFind_thumb.png", alt: "work 02", size: "m" },
-      { src: "assets/YouthFantasy_thumb.png", alt: "work 03", size: "l" },
-      { src: "assets/TypoJanchi_thumb.png", alt: "work 02", size: "l" },
-      { src: "assets/MeAndOthers_thumb.png", alt: "work 02", size: "l" },
-      { src: "assets/EwhaStudentCard_thumb.png", alt: "work 02", size: "m" },
-      { src: "assets/Karma_thumb.png", alt: "work 02", size: "xl" },
-      { src: "assets/EwhaInvitation_thumb.png", alt: "work 02", size: "l" },
-      // ...
-    ];
-
-    const grid = document.querySelector(".right-grid");
-
-    const SCALE_MAP = {
-      s: 0.60,
-      m: 0.80,
-      l: 1.00,
-      xl: 1.00,
-    };
-
-    const COLSPAN_MAP = {
-      s: 1,
-      m: 1,
-      l: 1,
-      xl: 2,
-    };
-
-    function getScale(size) {
-      return SCALE_MAP[size] ?? 1;
-    }
-
-    function render() {
-      grid.innerHTML = images
-        .map((it) => {
-          const href = it.href ?? it.src;
-          const target = it.href ? ' target="_blank" rel="noreferrer noopener"' : "";
-          const size = it.size ?? "m";
-
-          const scale = getScale(size);
-          const colspan = COLSPAN_MAP[size] ?? 1;
-
-          return `
-        <div class="masonry-item"
-          href="${href}"${target}
-          data-size="${size}"
-          style="--scale:${scale}; --colspan:${colspan};">
-          <img src="${it.src}" alt="${it.alt ?? ""}" loading="lazy" decoding="async" />
-        </div>
-      `;
-        })
-        .join("");
-    }
-
-
-    function masonryLayout() {
-      const style = getComputedStyle(grid);
-      const rowHeight = parseInt(style.getPropertyValue("grid-auto-rows"), 10);
-      const rowGap = parseInt(style.getPropertyValue("row-gap"), 10);
-
-      grid.querySelectorAll(".masonry-item").forEach((item) => {
-        const img = item.querySelector("img");
-        if (!img.complete || !img.naturalWidth) return;
-
-        const itemStyle = getComputedStyle(item);
-        const scale = parseFloat(itemStyle.getPropertyValue("--scale")) || 1;
-
-        // 그리드 셀(아이템)의 실제 폭
-        const cellW = item.getBoundingClientRect().width;
-
-        // 이미지 원본 비율
-        const ratio = img.naturalWidth / img.naturalHeight;
-
-        // "스케일 적용 전" 기준 높이(=scale 1일 때 들어갈 높이)
-        const baseH = cellW / ratio;
-
-        // row span 계산 (작은 이미지는 item 박스가 더 커져서 위쪽 여백이 생기고, 이미지는 아래로 붙음)
-        const span = Math.ceil((baseH + rowGap) / (rowHeight + rowGap) - 0.01);
-
-        item.style.gridRowEnd = `span ${span}`;
-      });
-    }
-
-    function bindImageLoad() {
-      const imgs = grid.querySelectorAll("img");
-      imgs.forEach((img) => img.addEventListener("load", masonryLayout, { once: true }));
-    }
-
-    let raf = 0;
-    window.addEventListener("resize", () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(masonryLayout);
-    });
-
-    render();
-    bindImageLoad();
-    masonryLayout();
-  </script>
-
+  <script src="main.js" defer></script>
 </body>
 
 </html>
