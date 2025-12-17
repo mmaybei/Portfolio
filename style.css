@@ -53,6 +53,10 @@ body {
 
 .left {
   padding: 44px 12px 44px 40px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 0;
 }
 
 .right {
@@ -82,8 +86,7 @@ body {
 }
 
 .intro {
-  max-width: 540px;
-  margin-top: 72px;
+  max-width: 572px;
 }
 
 .accent {
@@ -95,7 +98,8 @@ body {
 }
 
 .copyright {
-  margin-top: 380px;
+  margin-top: auto;
+  margin-bottom: 20px;
 }
 
 .right-topbar {
